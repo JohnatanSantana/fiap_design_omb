@@ -1,0 +1,48 @@
+@startuml
+!define RECTANGLE_COLOR #ADD8E6
+!define RECTANGLE_COLOR_2 #98FB98
+!define TEXT_COLOR black
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Diagrama de Componentes - Canal do Colaborador - Cadastro de RFP
+Person(InternalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs")
+Container_Boundary(AKSCluster, "") {
+    Container(CollaboratorPortal, "Pag Web (Canal Colaborador)", "React", "Portal para gerenciamento de RFPs") {
+        Component(CollaboratorUI, "Interface do Usuário", "React", "Interface para cadastro e gerenciamento de RFPs")
+        Component(CollaboratorAuth, "Autenticação de Usuários", "OAuth2", "Gerenciamento de autenticação e autorização")
+        Component(CollaboratorAPI, "API de RFP", "Java + Spring Boot", "API para gerenciamento de RFPs")
+    }
+    
+    Container(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
+    
+    Container(ProposalService, "Proposal Service API", "Java + Spring Boot", "Serviço para gerenciar propostas de RFP") {
+        Component(RFPManager, "Gerenciador de RFPs", "Java", "Gerencia o ciclo de vida das propostas de RFP, incluindo criação, atualização e seleção.")
+        Component(NotificationService, "Serviço de Notificações", "Java + Spring Boot", "Envia notificações sobre o status das RFPs, como atualizações e decisões.")
+        Component(DocumentStorage, "Armazenamento de Documentos", "Azure Blob Storage", "Armazena e gerencia documentos relacionados às RFPs, incluindo anexos e descrições.")
+        Component(AuditLog, "Log de Auditoria", "Java", "Registra todas as ações e eventos para auditoria e conformidade.")
+    }
+
+    Container(Database, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional para armazenamento de dados do sistema")
+    
+    Rel(InternalUsers, CollaboratorUI, "Cadastra e Gerencia RFPs")
+    Rel(CollaboratorUI, CollaboratorAuth, "Autentica Usuários Internos")
+    Rel(CollaboratorAuth, OAM, "Autentica Usuários Internos")
+    Rel(CollaboratorUI, CollaboratorAPI, "Gerencia RFPs")
+    Rel(CollaboratorAPI, ProposalService, "Processa Dados de RFPs")
+    Rel(ProposalService, Database, "[jdbc]\nLe e escreve]")
+
+    
+    Rel(ProposalService, RFPManager, "Gerencia Propostas")
+    Rel(ProposalService, NotificationService, "Envia Notificações")
+    Rel(ProposalService, DocumentStorage, "Armazena Documentos")
+    Rel(ProposalService, AuditLog, "Registra Eventos de Auditoria")
+    
+    
+    Rel(RFPManager, DocumentStorage, "Armazena e Recupera Documentos")
+    Rel(RFPManager, AuditLog, "Registra Mudanças")
+    Rel(NotificationService, Database, "[jdbc]\nLe e escreve]")
+
+}
+
+@enduml

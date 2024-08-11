@@ -1,0 +1,38 @@
+@startuml
+!define RECTANGLE_COLOR #ADD8E6
+!define RECTANGLE_COLOR_2 #98FB98
+!define TEXT_COLOR black
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Diagrama de Contêineres - Empresas Interessadas
+
+Person(Companies, "Empresas Interessadas", "Empresas que submetem propostas de RFP")
+
+System_Boundary(ExternalSystem, "Sistema Principal - Empresas Interessadas") {
+    Container(WebPageSupplier, "Pag Web (Canal Fornecedor)", "React", "Portal para envio de propostas de RFP")
+    Container(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
+    Container(AzureFrontDoor, "Azure Front Door", "CDN", "Distribuição de conteúdo global")
+    Container(APIIntegration2, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
+    Container_Boundary(BackendSystem, "System Software") {
+        Container(ProposalService, "Proposal Service API", "Java + Spring Boot", "Serviço para gerenciar propostas de RFP")
+    }
+}
+
+Rel(Companies, AzureFrontDoor, "Acessa conteúdo via CDN")
+Rel(AzureFrontDoor, APIIntegration2, "Distribui conteúdo")
+Rel(AzureFrontDoor, OAM, "Autentica Usuários Externos")
+Rel(OAM, ProposalService, "Gerencia Sessões")
+Rel(APIIntegration2,WebPageSupplier, "Acessa Web")
+Rel(APIIntegration2, ProposalService, "Fornece Dados de Propostas")
+
+note right of ExternalSystem
+    Empresas interessadas acessam o sistema para enviar propostas
+    de RFP, incluindo detalhes técnicos e comerciais.
+end note
+
+note right of WebPageSupplier
+    Empresas interessadas acessam o portal e enviam suas propostas
+    de RFP, incluindo detalhes técnicos e comerciais.
+end note
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+!define RECTANGLE_COLOR #ADD8E6
+!define RECTANGLE_COLOR_2 #98FB98
+!define TEXT_COLOR black
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Diagrama de Contexto - Sistema de Propostas de RFP da Prefeitura
+
+Person(InternalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs")
+Person(Companies, "Empresas Interessadas", "Empresas que submetem propostas de RFP")
+
+System(MainSystem, "Sistema Principal", "Sistema de Propostas de RFP da Prefeitura") {
+    Container(WebPageCollaborator, "Pag Web (Canal Colaborador)", "React", "Portal para gerenciamento de RFPs")
+    Container(WebPageSupplier, "Pag Web (Canal Fornecedor)", "React", "Portal para envio de propostas de RFP")
+    Container(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
+    Container(APIIntegration1, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
+    Container(APIIntegration2, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
+    Container(SystemSoftware, "System Software", "Container", "Back-end do sistema")
+    Container(Dashboard, "Dashboard", "Power BI", "Visualização de Dados")
+    Container(ETL, "ETL", "Talend", "Processamento de Dados")
+}
+
+Rel(InternalUsers, WebPageCollaborator, "Acessa Portal para Gerenciar RFPs")
+note left of WebPageCollaborator
+    Um usuário do Gabinete de Orçamento cadastra uma nova RFP no sistema,
+    preenchendo os detalhes do projeto e os critérios de avaliação.
+end note
+
+Rel(InternalUsers, Dashboard, "Visualiza Relatórios Financeiros")
+Rel(InternalUsers, WebPageCollaborator, "Acessa Portal para Avaliar Propostas")
+Rel(InternalUsers, Dashboard, "Visualiza Relatórios de Custos")
+Rel(InternalUsers, WebPageCollaborator, "Acessa Portal para Monitorar Processos")
+Rel(InternalUsers, Dashboard, "Visualiza Desempenho Operacional")
+Rel(Companies, WebPageSupplier, "Envia Propostas de RFP")
+note right of WebPageSupplier
+    Empresas interessadas acessam o portal e enviam suas propostas
+    de RFP, incluindo detalhes técnicos e comerciais.
+end note
+
+Rel(WebPageCollaborator, OAM, "Autentica Usuários Internos")
+Rel(WebPageSupplier, OAM, "Autentica Usuários Externos")
+Rel(OAM, SystemSoftware, "Gerencia Sessões")
+Rel(WebPageCollaborator, APIIntegration1, "Solicita Dados de Sistema")
+Rel(WebPageSupplier, APIIntegration2, "Solicita Dados de Sistema")
+Rel(APIIntegration1, SystemSoftware, "Fornece Dados")
+Rel(APIIntegration2, SystemSoftware, "Fornece Dados")
+Rel(SystemSoftware, ETL, "Envia Dados Brutos") 
+Rel(ETL, Dashboard, "Fornece Relatórios Processados")
+Rel(SystemSoftware, Dashboard, "Fornece Dados em Tempo Real")
+
+note left of MainSystem
+    A Prefeitura precisa de um sistema para receber propostas de RFP 
+    de empresas interessadas, permitindo a seleção da melhor proposta 
+    com base em custo-benefício e outros critérios.
+end note
+@enduml

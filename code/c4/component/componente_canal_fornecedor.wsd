@@ -1,0 +1,62 @@
+@startuml
+!define RECTANGLE_COLOR #ADD8E6
+!define RECTANGLE_COLOR_2 #98FB98
+!define TEXT_COLOR black
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Diagrama de Componentes Detalhado - Canal do Fornecedor
+Person(Companies, "Empresas Interessadas", "Empresas que submetem propostas de RFP")
+
+Container_Boundary(SupplierCluster, "Cluster AKS - Canal do Fornecedor") {
+    Container_Boundary(SupplierPortal, "Pag Web (Canal Fornecedor)") {
+        Component(SupplierUI, "Interface do Usuário", "React", "Interface para envio e visualização de propostas de RFP")
+        Component(SupplierAuth, "Autenticação de Usuários", "OAuth2", "Gerenciamento de autenticação e autorização")
+        Component(SupplierAPI, "API de Propostas", "Java + Spring Boot", "API para envio e gerenciamento de propostas")
+    }
+
+    Container_Boundary(ServiceLayer, "Camada de Serviços") {
+        Component(ProposalService, "Proposal Service API", "Java + Spring Boot", "Serviço para gerenciar propostas de RFP") {
+            Component(ProposalSubmission, "Proposta Submission Service", "Java + Spring Boot", "Serviço para submissão de propostas de RFP, Recebe as propostas enviadas pelos usuários e Armazena as propostas no banco de dados")
+            Component(ProposalValidation, "Proposta Validation Service", "Java + Spring Boot", "Serviço para validação de propostas, Verifica se as propostas cumprem os critérios estabelecidos e interage com o User Service API para validar os usuários")
+            Component(ProposalEvaluation, "Proposta Evaluation Service", "Java + Spring Boot", "Serviço para avaliação de propostas, Avalia as propostas com base em critérios pré-definidos e Gera relatórios de avaliação para os gestores")
+            Component(RFPViewService, "RFP Viewing Service", "Java + Spring Boot", "Serviço para visualizar RFPs e notas relacionadas, Permite que fornecedores visualizem RFPs e notas relacionadas, Interage com o ProposalService para obter informações de RFPs e avaliações")
+        }
+        Component(UserService, "User Service API", "Java + Spring Boot", "Serviço para gerenciar usuários")
+    }
+
+    Component(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
+    Component(APIIntegration, "API Gateway", "NGINX/HAProxy", "Roteamento de solicitações de API para os serviços apropriados")
+    Component(AzureFrontDoor, "Azure Front Door", "CDN", "Distribuição de conteúdo global")
+}
+
+Container(Database, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional para armazenamento de dados do sistema")
+
+Rel(Companies, SupplierUI, "Envia Propostas de RFP")
+Rel(SupplierUI, SupplierAuth, "Autentica Usuários Externos")
+Rel(SupplierAuth, OAM, "Autentica Usuários Externos")
+Rel(SupplierUI, SupplierAPI, "Submete Propostas de RFP")
+Rel(SupplierAPI, APIIntegration, "Submete Propostas de RFP")
+Rel(APIIntegration, ProposalSubmission, "Submete Propostas de RFP")
+Rel(SupplierAPI, APIIntegration, "Solicita Visualização de RFPs")
+Rel(APIIntegration, RFPViewService, "Solicita Visualização de RFPs")
+Rel(RFPViewService, ProposalService, "Obtém RFPs e Notas")
+Rel(ProposalSubmission, ProposalValidation, "Valida Propostas")
+Rel(ProposalValidation, ProposalEvaluation, "Avalia Propostas")
+Rel(ProposalService, Database, "[jdbc]\nLe e escreve]")
+Rel(UserService, Database, "[jdbc]\nLe e escreve]")
+Rel(OAM, UserService, "Gerencia Sessões")
+Rel(ProposalService, UserService, "Valida Usuários para Propostas")
+
+note right of SupplierPortal
+    Empresas interessadas acessam o portal e enviam suas propostas
+    de RFP, incluindo detalhes técnicos e comerciais.
+end note
+
+note right of SupplierCluster
+    O Cluster AKS (Azure Kubernetes Service) hospeda os componentes do canal do fornecedor,
+    garantindo escalabilidade e gerenciamento simplificado dos serviços.
+end note
+
+
+@enduml
