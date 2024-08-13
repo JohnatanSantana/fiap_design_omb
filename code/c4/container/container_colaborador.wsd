@@ -28,9 +28,9 @@ System_Boundary(InternalSystem, "Sistema Principal - Gabinete de Orçamento / Fi
 
 Rel(InternalUsers, AzureFrontDoor, "Acessa conteúdo via CDN")
 Rel(AzureFrontDoor, APIIntegration1, "Distribui conteúdo")
-Rel(AzureFrontDoor, OAM, "Autentica Usuários Internos")
-Rel(OAM, UserService, "Gerencia Sessões")
-Rel(APIIntegration1, WebPageCollaborator,  "Solicita acesso Web")
+Rel(WebPageCollaborator, OAM, "Autentica Usuários Internos")
+Rel( UserService, OAM, "Gerencia Sessões")
+Rel(APIIntegration1, WebPageCollaborator, "Solicita acesso Web")
 Rel(APIIntegration1, ProposalService, "Fornece Dados de Propostas")
 Rel(BusinessLogic, Database, "Armazena Dados")
 Rel(BusinessLogic, ETL, "Envia Dados Brutos")

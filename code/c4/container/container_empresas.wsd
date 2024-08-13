@@ -21,8 +21,8 @@ System_Boundary(ExternalSystem, "Sistema Principal - Empresas Interessadas") {
 
 Rel(Companies, AzureFrontDoor, "Acessa conteúdo via CDN")
 Rel(AzureFrontDoor, APIIntegration2, "Distribui conteúdo")
-Rel(AzureFrontDoor, OAM, "Autentica Usuários Externos")
-Rel(OAM, ProposalService, "Gerencia Sessões")
+Rel(WebPageSupplier, OAM, "Autentica Usuários Externos")
+Rel(ProposalService, OAM,  "Gerencia Sessões")
 Rel(APIIntegration2,WebPageSupplier, "Acessa Web")
 Rel(APIIntegration2, ProposalService, "Fornece Dados de Propostas")
 

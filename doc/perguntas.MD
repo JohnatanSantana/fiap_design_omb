@@ -103,7 +103,7 @@ ETL, para carregar e transformar dados em um destino.
 Facade, interface com logica de negocio, proporcionando interface unica para componentes;
 
 18. Qual é o Metamodelo? 
-UML Metamodelo
+UML Metamodelo.
 
 19. Pode ser discernido no diagrama único? 
 Pode sim, apenas contendo a comunicação entre as camadas. Para aprofundar precisamos de outros diagramas.

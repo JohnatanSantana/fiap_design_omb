@@ -32,11 +32,13 @@ Container_Boundary(SupplierCluster, "Cluster AKS - Canal do Fornecedor") {
 
 Container(Database, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional para armazenamento de dados do sistema")
 
-Rel(Companies, SupplierUI, "Envia Propostas de RFP")
+Rel(Companies, AzureFrontDoor, "Acessa conteúdo via CDN")
+Rel(AzureFrontDoor, APIIntegration, "Distribui conteúdo")
+Rel(APIIntegration, SupplierUI, "Solicita acesso Web")
 Rel(SupplierUI, SupplierAuth, "Autentica Usuários Externos")
 Rel(SupplierAuth, OAM, "Autentica Usuários Externos")
 Rel(SupplierUI, SupplierAPI, "Submete Propostas de RFP")
-Rel(SupplierAPI, APIIntegration, "Submete Propostas de RFP")
+Rel(SupplierAPI, APIIntegration, "Envia solicitações de RFP")
 Rel(APIIntegration, ProposalSubmission, "Submete Propostas de RFP")
 Rel(SupplierAPI, APIIntegration, "Solicita Visualização de RFPs")
 Rel(APIIntegration, RFPViewService, "Solicita Visualização de RFPs")
@@ -57,6 +59,4 @@ note right of SupplierCluster
     O Cluster AKS (Azure Kubernetes Service) hospeda os componentes do canal do fornecedor,
     garantindo escalabilidade e gerenciamento simplificado dos serviços.
 end note
-
-
 @enduml
