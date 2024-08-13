@@ -5,42 +5,30 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Diagrama de Componentes - Canal do Colaborador - Cadastro de RFP
-
-Person(InternalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs")
-
-Container_Boundary(AKSCluster, "") {
-    Container(CollaboratorPortal, "Pag Web (Canal Colaborador)", "React", "Portal para gerenciamento de RFPs") {
-        Component(CollaboratorUI, "Interface do Usuário", "React", "Interface para cadastro e gerenciamento de RFPs")
-        Component(CollaboratorAPI, "API de RFP", "Java + Spring Boot", "API para gerenciamento de RFPs")
+' Define the system boundary
+System_Boundary(system, "BI") {
+    ' Define containers
+    Container(db, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional, onde armazena dados do sistema.")
+    Container(etl, "Sistema ETL", "Databricks", "Extrai, transforma e carrega dados de várias fontes.") {
+        Component(extractor, "Extrator", "Databricks", "Extrai dados de sistemas externos e internos.")
+        Component(transformer, "Transformador", "Databricks", "Transforma e limpa dados para análise.")
+        Component(loader, "Carregador", "Databricks", "Carrega dados transformados no Data Warehouse.")
     }
-    
-    Container(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
-    Container(AzureFrontDoor, "Azure Front Door", "CDN", "Distribuição de conteúdo global")
-    Container(APIIntegration, "API Gateway", "NGINX/HAProxy", "Roteamento de solicitações de API para os serviços apropriados")
+    Container(dw, "Data Warehouse", "Azure Synapse Analytics", "Armazena dados integrados e transformados.")
+    Container(dashboard, "Sistema Dashboard", "Power BI", "Fornece visualizações e relatórios interativos dos dados.")
 
-    Container(ProposalService, "Proposal Service API", "Java + Spring Boot", "Serviço para gerenciar propostas de RFP") {
-        Component(RFPManager, "Gerenciador de RFPs", "Java", "Gerencia o ciclo de vida das propostas de RFP, incluindo criação, atualização e seleção.")
-        Component(NotificationService, "Serviço de Notificações", "Java + Spring Boot", "Envia notificações sobre o status das RFPs, como atualizações e decisões.")
-        Component(DocumentStorage, "Armazenamento de Documentos", "Azure Blob Storage", "Armazena e gerencia documentos relacionados às RFPs, incluindo anexos e descrições.")
-        Component(AuditLog, "Log de Auditoria", "Java", "Registra todas as ações e eventos para auditoria e conformidade.")
-    }
+    ' Define personas
+    Person(internalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs.")
 
-    Container(Database, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional para armazenamento de dados do sistema")
+    ' Define relationships
+    Rel(internalUsers, dashboard, "Acessa relatórios e visualizações")
+    Rel(db, etl, "Fornece dados brutos para processamento")
+    Rel(etl, dw, "Carrega dados transformados")
+    Rel(dw, dashboard, "Fornece dados para visualizações e relatórios")
+    Rel(dashboard, dw, "Consulta dados para relatórios")
 
-    Rel(InternalUsers, AzureFrontDoor, "Acessa conteúdo via CDN")
-    Rel(AzureFrontDoor, APIIntegration, "Distribui conteúdo")
-    Rel(AzureFrontDoor, OAM, "Autentica Usuários Internos")
-    Rel(CollaboratorUI, CollaboratorAPI, "Gerencia RFPs")
-    Rel(APIIntegration,CollaboratorAPI, "Roteia chamadas de API")
-    Rel(APIIntegration, ProposalService, "Processa Dados de RFPs")
-    Rel(ProposalService, Database, "[jdbc] Lê e escreve")
-    Rel(ProposalService, RFPManager, "Gerencia Propostas")
-    Rel(ProposalService, NotificationService, "Envia Notificações")
-    Rel(ProposalService, DocumentStorage, "Armazena Documentos")
-    Rel(ProposalService, AuditLog, "Registra Eventos de Auditoria")
-    Rel(RFPManager, DocumentStorage, "Armazena e Recupera Documentos")
-    Rel(RFPManager, AuditLog, "Registra Mudanças")
-    Rel(NotificationService, Database, "[jdbc] Lê e escreve")
+    ' Define detailed relationships for ETL components
+    Rel(extractor, transformer, "Passa dados extraídos para transformação")
+    Rel(transformer, loader, "Passa dados transformados para carregamento")
 }
 @enduml

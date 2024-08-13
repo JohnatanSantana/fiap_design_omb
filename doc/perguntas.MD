@@ -8,11 +8,13 @@ Melhorar processos existentes;
 Garantir conformidade com órgãos reguladores;
 
 
-3. Que perguntas precisamos que sejam respondidas? 
+3. 3. Que perguntas precisamos que sejam respondidas? 
 Problemas que existem no processo atual
 Quantidade de usuários?
-Saber se existem órgão regulador
+Saber se existem órgão regulador?
 Quais são os nossos principais riscos?
+Quais requisitos dos Órgãos reguladores?
+Temos auditoria que o sistema deve passar?
 
 
 4. Quais são os nossos principais riscos? 
@@ -20,6 +22,7 @@ Atraso;
 Falta de entendimento;
 Pessoas;
 Segurança da informação;
+Resistência a mudanças;
 
 5. Crie um plano para aprender o que precisamos para responder a perguntas específicas. 
 Sessões de alinhamento com as partes interessadas.
@@ -32,12 +35,14 @@ Motivar os usuários participarem;
 Planejamento detalhado e gestão eficiente do projeto;
 Implementação de medidas de segurança robustas;
 Desenvolvimento de contingência;
-
+Treinamentos para usuários;
+Envolvimento dos usuários no processo de desenvolvimento;
 
 7. Quem são as partes interessadas? 
 Prefeito;
 Gabinete de Gestão e Orçamento;
 Empresas;
+Equipe de Tecnologia;
 
 
 8. O que eles esperam ganhar? 
@@ -51,7 +56,7 @@ Eficiência operacional;
 9. Quem são os usuários? 
 Gabinete de Gestão e Orçamento;
 Empresas Parceiras;
-
+Departamento de tecnologia;
 
 10. O que eles estão tentando realizar? 
 Corte de Custos;
