@@ -5,6 +5,10 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
+skinparam ArrowColor black
+skinparam ArrowThickness 1
+skinparam DefaultFontColor black
+
 title Diagrama de Componentes Detalhado - Canal do Fornecedor
 Person(Companies, "Empresas Interessadas", "Empresas que submetem propostas de RFP")
 
@@ -32,23 +36,22 @@ Container_Boundary(SupplierCluster, "Cluster AKS - Canal do Fornecedor") {
 
 Container(Database, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional para armazenamento de dados do sistema")
 
-Rel(Companies, AzureFrontDoor, "Acessa conteúdo via CDN")
-Rel(AzureFrontDoor, APIIntegration, "Distribui conteúdo")
-Rel(APIIntegration, SupplierUI, "Solicita acesso Web")
-Rel(SupplierUI, SupplierAuth, "Autentica Usuários Externos")
-Rel(SupplierAuth, OAM, "Autentica Usuários Externos")
-Rel(SupplierUI, SupplierAPI, "Submete Propostas de RFP")
-Rel(SupplierAPI, APIIntegration, "Envia solicitações de RFP")
-Rel(APIIntegration, ProposalSubmission, "Submete Propostas de RFP")
-Rel(SupplierAPI, APIIntegration, "Solicita Visualização de RFPs")
-Rel(APIIntegration, RFPViewService, "Solicita Visualização de RFPs")
-Rel(RFPViewService, ProposalService, "Obtém RFPs e Notas")
-Rel(ProposalSubmission, ProposalValidation, "Valida Propostas")
-Rel(ProposalValidation, ProposalEvaluation, "Avalia Propostas")
-Rel(ProposalService, Database, "[jdbc]\nLe e escreve]")
-Rel(UserService, Database, "[jdbc]\nLe e escreve]")
-Rel(OAM, UserService, "Gerencia Sessões")
-Rel(ProposalService, UserService, "Valida Usuários para Propostas")
+Rel(Companies, AzureFrontDoor, "1. Acessa conteúdo via CDN")
+Rel(AzureFrontDoor, APIIntegration, "2. Distribui conteúdo")
+Rel(APIIntegration, SupplierUI, "3. Solicita acesso Web")
+Rel(SupplierUI, SupplierAuth, "4. Autentica Usuários Externos")
+Rel(SupplierAuth, OAM, "5. Autentica Usuários Externos")
+Rel(SupplierUI, SupplierAPI, "6. Submete Propostas de RFP")
+Rel(SupplierAPI, APIIntegration, "7. Envia solicitações de RFP")
+Rel(APIIntegration, ProposalSubmission, "8. Submete Propostas de RFP")
+Rel(SupplierAPI, APIIntegration, "9. Solicita Visualização de RFPs")
+Rel(APIIntegration, RFPViewService, "10. Solicita Visualização de RFPs")
+Rel(RFPViewService, ProposalService, "11. Obtém RFPs e Notas")
+Rel(ProposalSubmission, ProposalValidation, "12. Valida Propostas")
+Rel(ProposalValidation, ProposalEvaluation, "13. Avalia Propostas")
+Rel(ProposalService, Database, "14. [jdbc]\nLê e escreve")
+Rel(OAM, UserService, "15. Gerencia Sessões")
+Rel(ProposalService, UserService, "16. Valida Usuários para Propostas")
 
 note right of SupplierPortal
     Empresas interessadas acessam o portal e enviam suas propostas

@@ -5,49 +5,51 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
+skinparam ArrowColor black
+skinparam ArrowThickness 1
+skinparam DefaultFontColor black
+
 title Diagrama de Contexto - Sistema de Propostas de RFP da Prefeitura
 
 Person(InternalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs")
 Person(Companies, "Empresas Interessadas", "Empresas que submetem propostas de RFP")
 
 System(MainSystem, "Sistema Principal", "Sistema de Propostas de RFP da Prefeitura") {
-    Container(WebPageCollaborator, "Pag Web (Canal Colaborador)", "React", "Portal para gerenciamento de RFPs")
-    Container(WebPageSupplier, "Pag Web (Canal Fornecedor)", "React", "Portal para envio de propostas de RFP")
-    Container(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
-    Container(APIIntegration1, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
-    Container(APIIntegration2, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
-    Container(SystemSoftware, "System Software", "Container", "Back-end do sistema")
-    Container(Dashboard, "Dashboard", "Power BI", "Visualização de Dados")
-    Container(ETL, "ETL", "Talend", "Processamento de Dados")
+    Container(1_WebPageCollaborator, "Pag Web (Canal Colaborador)", "React", "Portal para gerenciamento de RFPs")
+    Container(2_WebPageSupplier, "Pag Web (Canal Fornecedor)", "React", "Portal para envio de propostas de RFP")
+    Container(3_OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
+    Container(4_APIIntegration1, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
+    Container(5_APIIntegration2, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
+    Container(6_SystemSoftware, "System Software", "Container", "Back-end do sistema")
+    Container(7_Dashboard, "Dashboard", "DataViz", "Visualização de Dados")
+    Container(8_ETL, "ETL", "ETL Tool", "Processamento de Dados")
 }
 
-Rel(InternalUsers, WebPageCollaborator, "Acessa Portal para Gerenciar RFPs")
-note left of WebPageCollaborator
+Rel(InternalUsers, 1_WebPageCollaborator, "1. Acessa Portal para Gerenciar RFPs")
+note left of 1_WebPageCollaborator
     Um usuário do Gabinete de Orçamento cadastra uma nova RFP no sistema,
     preenchendo os detalhes do projeto e os critérios de avaliação.
 end note
 
-Rel(InternalUsers, Dashboard, "Visualiza Relatórios Financeiros")
-Rel(InternalUsers, WebPageCollaborator, "Acessa Portal para Avaliar Propostas")
-Rel(InternalUsers, Dashboard, "Visualiza Relatórios de Custos")
-Rel(InternalUsers, WebPageCollaborator, "Acessa Portal para Monitorar Processos")
-Rel(InternalUsers, Dashboard, "Visualiza Desempenho Operacional")
-Rel(Companies, WebPageSupplier, "Envia Propostas de RFP")
-note right of WebPageSupplier
+Rel(InternalUsers, 7_Dashboard, "2. Visualiza Relatórios Financeiros")
+Rel(InternalUsers, 1_WebPageCollaborator, "3. Acessa Portal para Avaliar Propostas")
+Rel(InternalUsers, 7_Dashboard, "4. Visualiza Relatórios de Custos")
+Rel(InternalUsers, 1_WebPageCollaborator, "5. Acessa Portal para Monitorar Processos")
+Rel(InternalUsers, 7_Dashboard, "6. Visualiza Desempenho Operacional")
+Rel(Companies, 2_WebPageSupplier, "7. Envia Propostas de RFP")
+note right of 2_WebPageSupplier
     Empresas interessadas acessam o portal e enviam suas propostas
     de RFP, incluindo detalhes técnicos e comerciais.
 end note
 
-Rel(WebPageCollaborator, OAM, "Autentica Usuários Internos")
-Rel(WebPageSupplier, OAM, "Autentica Usuários Externos")
-Rel(OAM, SystemSoftware, "Gerencia Sessões")
-Rel(WebPageCollaborator, APIIntegration1, "Solicita Dados de Sistema")
-Rel(WebPageSupplier, APIIntegration2, "Solicita Dados de Sistema")
-Rel(APIIntegration1, SystemSoftware, "Fornece Dados")
-Rel(APIIntegration2, SystemSoftware, "Fornece Dados")
-Rel(SystemSoftware, ETL, "Envia Dados Brutos") 
-Rel(ETL, Dashboard, "Fornece Relatórios Processados")
-Rel(SystemSoftware, Dashboard, "Fornece Dados em Tempo Real")
+Rel(1_WebPageCollaborator, 3_OAM, "8. Autentica Usuários Internos")
+Rel(2_WebPageSupplier, 3_OAM, "9. Autentica Usuários Externos")
+Rel(1_WebPageCollaborator, 4_APIIntegration1, "10. Solicita Dados de Sistema")
+Rel(2_WebPageSupplier, 5_APIIntegration2, "12. Solicita Dados de Sistema")
+Rel(4_APIIntegration1, 6_SystemSoftware, "11. Fornece Dados")
+Rel(5_APIIntegration2, 6_SystemSoftware, "13. Fornece Dados")
+Rel(6_SystemSoftware, 8_ETL, "14. Envia Dados Brutos") 
+Rel(8_ETL, 7_Dashboard, "15. Fornece Relatórios Processados")
 
 note left of MainSystem
     A Prefeitura precisa de um sistema para receber propostas de RFP 

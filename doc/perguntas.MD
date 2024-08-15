@@ -135,16 +135,95 @@ Volumetria e escalabilidade, se nossa solução precisaria ser muito escalável,
 camadas do C4; (Subir somente a Imagem jpg/jpeg) 
 
 27. Nível Contexto 
+**Contexto RFP**
 ![Contexto](../images/c4/context/c4_context.png)
+27.1. Acessa Portal para Gerenciar RFPs
+27.2. Visualiza Relatórios Financeiros
+27.3. Acessa Portal para Avaliar Propostas
+27.4. Visualiza Relatórios de Custos
+27.5. Acessa Portal para Monitorar Processos
+27.6. Visualiza Desempenho Operacional
+27.7. Envia Propostas de RFP
+27.8. Autentica Usuários Internos
+27.9. Autentica Usuários Externos
+27.10. Solicita Dados de Sistema
+27.12. Solicita Dados de Sistema
+27.11. Fornece Dados
+27.13. Fornece Dados
+27.14. Envia Dados Brutos"
+27.15. Fornece Relatórios Processados
+
 
 28. Nível Container 
+**Colaborador**
 ![Container Colaborador](../images/c4/container/container_colaborador.png)
+28.1.1. Acessa conteúdo via CDN
+28.1.2. Distribui conteúdo
+28.1.3. Autentica Usuários Internos
+28.1.4. Gerencia Sessões
+28.1.5. Solicita acesso Web
+28.1.6. Fornece Dados de Propostas
+28.1.7. Armazena Dados
+28.1.8. Envia Dados Brutos
+28.1.9. Transfere Dados Processados
+28.1.10. Fornece Dados para Relatórios
+28.1.11. Fornece Dados em Tempo Real
+28.1.12. Fornece relatórios Sistemicos
+**Empresas Interessadas**
 ![Container Empresas](../images/c4/container/container_empresas.png)
+28.2.1. Acessa conteúdo via CDN
+28.2.2. Distribui conteúdo
+28.2.3. Autentica Usuários Externos
+28.2.4. Fornece Dados de Propostas
+28.2.5. Acessa Web
+28.2.6. Gerencia Sessões
 
 29. Nível Componente 
 ![Componente Colaborador](../images/c4/component/canal_colaborador.png)
+29.1.1. Acessa conteúdo via CDN
+29.1.2. Distribui conteúdo
+29.1.3. Solicita acesso Web
+29.1.4. Autentica Usuários Internos
+29.1.5. Autentica Usuários Internos
+29.1.6. Gerencia RFPs
+29.1.7. Envia solicitações de RFP
+29.1.8. Processa Dados de RFPs
+29.1.9. Gerencia Propostas
+29.1.10. Armazena Documentos
+29.1.11. Registra Eventos de Auditoria
+29.1.12. Armazena e Recupera Documentos
+29.1.13. Autentica Usuários
+29.1.14. [jdbc]\nLe e escreve]
+29.1.15. Registra Mudanças
+29.1.16. [jdbc]\nLe e escreve]
+29.1.17. Envia Notificações
+29.1.18. [jdbc]\nLe]
+29.1.19. [jdbc]\nLe e escreve]
 ![Componente Colaborador](../images/c4/component/dashboard_colaborador.png)
+29.2.1. Fornece dados brutos para processamento
+29.2.2. Passa dados extraídos para transformação
+29.2.3. Passa dados transformados para carregamento
+29.2.4. Carrega dados transformados
+29.2.5. Consulta dados para relatórios")  
+29.2.6. Fornece dados para visualizações e relatórios
+29.2.7. Acessa relatórios e visualizações
 ![Componente Empreas](../images/c4/component/canal_empresas.png)
+29.3.1. Acessa conteúdo via CDN"
+29.3.2. Distribui conteúdo"
+29.3.3. Solicita acesso Web"
+29.3.4. Autentica Usuários Externos"
+29.3.5. Autentica Usuários Externos"
+29.3.6. Submete Propostas de RFP"
+29.3.7. Envia solicitações de RFP"
+29.3.8. Submete Propostas de RFP"
+29.3.9. Solicita Visualização de RFPs"
+29.3.10. Solicita Visualização de RFPs"
+29.3.11. Obtém RFPs e Notas"
+29.3.12. Valida Propostas"
+29.3.13. Avalia Propostas"
+29.3.14. [jdbc]\nLê e escreve"
+29.3.15. Gerencia Sessões"
+29.3.16. Valida Usuários para Propostas"
 30. Code (Opcional) 
 31. Validar no checklist (opcional) - https://c4model.com/review/ 
 32. Gravar um vídeo explicando o projeto com um todo e desenhos, Obs: todos os integrantes 

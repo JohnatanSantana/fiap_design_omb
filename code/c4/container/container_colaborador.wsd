@@ -5,6 +5,10 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
+skinparam ArrowColor black
+skinparam ArrowThickness 1
+skinparam DefaultFontColor black
+
 title Diagrama de Contêineres - Gabinete de Orçamento / Financeiro / Operações
 
 Person(InternalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs")
@@ -22,21 +26,22 @@ System_Boundary(InternalSystem, "Sistema Principal - Gabinete de Orçamento / Fi
         Container(Database, "Banco de Dados", "MySQL", "Banco de dados relacional para armazenamento de dados do sistema")
     }
     Container(Dashboard, "Dashboard", "Power BI", "Visualização de Dados")
-    Container(ETL, "ETL", "Talend", "Processamento de Dados")
+    Container(ETL, "ETL", "Databricks", "Processamento de Dados")
     Container(DataWarehouse, "Data Warehouse", "Azure Synapse Analytics", "Armazenamento de dados para análise")
 }
 
-Rel(InternalUsers, AzureFrontDoor, "Acessa conteúdo via CDN")
-Rel(AzureFrontDoor, APIIntegration1, "Distribui conteúdo")
-Rel(WebPageCollaborator, OAM, "Autentica Usuários Internos")
-Rel( UserService, OAM, "Gerencia Sessões")
-Rel(APIIntegration1, WebPageCollaborator, "Solicita acesso Web")
-Rel(APIIntegration1, ProposalService, "Fornece Dados de Propostas")
-Rel(BusinessLogic, Database, "Armazena Dados")
-Rel(BusinessLogic, ETL, "Envia Dados Brutos")
-Rel(ETL, DataWarehouse, "Transfere Dados Processados")
-Rel(DataWarehouse, Dashboard, "Fornece Dados para Relatórios")
-Rel(BusinessLogic, Dashboard, "Fornece Dados em Tempo Real")
+Rel(InternalUsers, AzureFrontDoor, "1. Acessa conteúdo via CDN")
+Rel(AzureFrontDoor, APIIntegration1, "2. Distribui conteúdo")
+Rel(WebPageCollaborator, OAM, "3. Autentica Usuários Internos")
+Rel(UserService, OAM, "4. Gerencia Sessões")
+Rel(APIIntegration1, WebPageCollaborator, "5. Solicita acesso Web")
+Rel(APIIntegration1, ProposalService, "6. Fornece Dados de Propostas")
+Rel(BusinessLogic, Database, "7. Armazena Dados")
+Rel(BusinessLogic, ETL, "8. Envia Dados Brutos")
+Rel(ETL, DataWarehouse, "9. Transfere Dados Processados")
+Rel(DataWarehouse, Dashboard, "10. Fornece Dados para Relatórios")
+Rel(BusinessLogic, Dashboard, "11. Fornece Dados em Tempo Real")
+Rel(APIIntegration1,ReportingService,"12. Fornece relatórios Sistemicos")
 
 note left of InternalSystem
     O Gabinete de Orçamento precisa de um sistema para gerenciar RFPs,

@@ -5,6 +5,10 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
+skinparam ArrowColor black
+skinparam ArrowThickness 1
+skinparam DefaultFontColor black
+
 title Diagrama de Contêineres - Empresas Interessadas
 
 Person(Companies, "Empresas Interessadas", "Empresas que submetem propostas de RFP")
@@ -13,18 +17,18 @@ System_Boundary(ExternalSystem, "Sistema Principal - Empresas Interessadas") {
     Container(WebPageSupplier, "Pag Web (Canal Fornecedor)", "React", "Portal para envio de propostas de RFP")
     Container(OAM, "OAM", "Access Manager", "Gerenciamento de Acessos")
     Container(AzureFrontDoor, "Azure Front Door", "CDN", "Distribuição de conteúdo global")
-    Container(APIIntegration2, "Integração [API Gateway]", "API Gateway", "Integração de Serviços")
+    Container(APIIntegration2, "Integração [API Gateway]", "APIM", "Integração de Serviços")
     Container_Boundary(BackendSystem, "System Software") {
         Container(ProposalService, "Proposal Service API", "Java + Spring Boot", "Serviço para gerenciar propostas de RFP")
     }
 }
 
-Rel(Companies, AzureFrontDoor, "Acessa conteúdo via CDN")
-Rel(AzureFrontDoor, APIIntegration2, "Distribui conteúdo")
-Rel(WebPageSupplier, OAM, "Autentica Usuários Externos")
-Rel(ProposalService, OAM,  "Gerencia Sessões")
-Rel(APIIntegration2,WebPageSupplier, "Acessa Web")
-Rel(APIIntegration2, ProposalService, "Fornece Dados de Propostas")
+Rel(Companies, AzureFrontDoor, "1. Acessa conteúdo via CDN")
+Rel(AzureFrontDoor, APIIntegration2, "2. Distribui conteúdo")
+Rel(WebPageSupplier, OAM, "3. Autentica Usuários Externos")
+Rel(ProposalService, OAM, "6. Gerencia Sessões")
+Rel(APIIntegration2, WebPageSupplier, "5. Acessa Web")
+Rel(APIIntegration2, ProposalService, "4. Fornece Dados de Propostas")
 
 note right of ExternalSystem
     Empresas interessadas acessam o sistema para enviar propostas

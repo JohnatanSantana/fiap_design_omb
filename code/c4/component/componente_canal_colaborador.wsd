@@ -5,6 +5,10 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
+skinparam ArrowColor black
+skinparam ArrowThickness 1
+skinparam DefaultFontColor black
+
 title Diagrama de Componentes - Canal do Colaborador - Cadastro de RFP
 
 Person(InternalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs")
@@ -21,32 +25,45 @@ Container_Boundary(AKSCluster, "") {
     Container(ProposalService, "Proposal Service API", "Java + Spring Boot", "Serviço para gerenciar propostas de RFP") {
         Component(RFPManager, "Gerenciador de RFPs", "Java", "Gerencia o ciclo de vida das propostas de RFP, incluindo criação, atualização e seleção.")
         Component(NotificationService, "Serviço de Notificações", "Java + Spring Boot", "Envia notificações sobre o status das RFPs, como atualizações e decisões.")
-        Component(DocumentStorage, "Armazenamento de Documentos", "Azure Blob Storage", "Armazena e gerencia documentos relacionados às RFPs, incluindo anexos e descrições.")
         Component(AuditLog, "Log de Auditoria", "Java", "Registra todas as ações e eventos para auditoria e conformidade.")
+        Component(UserManager, "Gerenciador de Usuários", "Java", "Gerencia o ciclo de vida dos usuários, incluindo criação, atualização e exclusão.")
+        Component(ReportGenerator, "Gerador de Relatórios", "Java", "Gera relatórios não análiticos.")
+        Component(UserService, "User Service API", "Java + Spring Boot", "Serviço para gerenciar usuários")
     }
 
+    
+
+    Container(DocumentStorage, "Armazenamento de Documentos", "Azure Blob Storage", "Armazena e gerencia documentos relacionados às RFPs, incluindo anexos e descrições.")
     Container(Database, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional para armazenamento de dados do sistema")
     
     Container(AzureFrontDoor, "Azure Front Door", "CDN", "Distribuição de conteúdo global")
     Container(APIGateway, "API Gateway", "API Gateway", "Gerenciamento de tráfego e roteamento de APIs")
 }
 
-Rel(InternalUsers, AzureFrontDoor, "Acessa conteúdo via CDN")
-Rel(AzureFrontDoor, APIGateway, "Distribui conteúdo")
-Rel(APIGateway, CollaboratorUI, "Solicita acesso Web")
-Rel(CollaboratorUI, CollaboratorAuth, "Autentica Usuários Internos")
-Rel(CollaboratorAuth, OAM, "Autentica Usuários Internos")
-Rel(CollaboratorUI, CollaboratorAPI, "Gerencia RFPs")
-Rel(CollaboratorAPI, APIGateway, "Envia solicitações de RFP")
-Rel(APIGateway, ProposalService, "Processa Dados de RFPs")
-Rel(ProposalService, Database, "[jdbc]\nLe e escreve]")
+Rel(InternalUsers, AzureFrontDoor, "1. Acessa conteúdo via CDN")
+Rel(AzureFrontDoor, APIGateway, "2. Distribui conteúdo")
+Rel(APIGateway, CollaboratorUI, "3. Solicita acesso Web")
+Rel(CollaboratorUI, CollaboratorAuth, "4. Autentica Usuários Internos")
+Rel(CollaboratorAuth, OAM, "5. Autentica Usuários Internos")
+Rel(CollaboratorUI, CollaboratorAPI, "6. Gerencia RFPs")
+Rel(CollaboratorAPI, APIGateway, "7. Envia solicitações de RFP")
+Rel(APIGateway, ProposalService, "8. Processa Dados de RFPs")
 
-Rel(ProposalService, RFPManager, "Gerencia Propostas")
-Rel(ProposalService, NotificationService, "Envia Notificações")
-Rel(ProposalService, DocumentStorage, "Armazena Documentos")
-Rel(ProposalService, AuditLog, "Registra Eventos de Auditoria")
 
-Rel(RFPManager, DocumentStorage, "Armazena e Recupera Documentos")
-Rel(RFPManager, AuditLog, "Registra Mudanças")
-Rel(NotificationService, Database, "[jdbc]\nLe e escreve]")
+Rel(ProposalService, RFPManager, "9. Gerencia Propostas")
+
+Rel(ProposalService, DocumentStorage, "10. Armazena Documentos")
+Rel(ProposalService, AuditLog, "11. Registra Eventos de Auditoria")
+
+Rel(RFPManager, DocumentStorage, "12. Armazena e Recupera Documentos")
+Rel(UserService, OAM, "13. Autentica Usuários")
+Rel(UserService, Database, "14. [jdbc]\nLe e escreve]")
+Rel(RFPManager, AuditLog, "15. Registra Mudanças")
+Rel(NotificationService, Database, "16. [jdbc]\nLe e escreve]")
+Rel(ProposalService, NotificationService, "17. Envia Notificações")
+Rel(DWService, Database, "18. [jdbc]\nLe]")
+Rel(AuditLog, Database, "19. [jdbc]\nLe e escreve]")
+
+
+
 @enduml

@@ -5,9 +5,13 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-' Define the system boundary
+skinparam ArrowColor black
+skinparam ArrowThickness 1
+skinparam DefaultFontColor black
+
+
 System_Boundary(system, "BI") {
-    ' Define containers
+    
     Container(db, "Banco de Dados", "Azure SQL Server", "Banco de dados relacional, onde armazena dados do sistema.")
     Container(etl, "Sistema ETL", "Databricks", "Extrai, transforma e carrega dados de várias fontes.") {
         Component(extractor, "Extrator", "Databricks", "Extrai dados de sistemas externos e internos.")
@@ -17,18 +21,17 @@ System_Boundary(system, "BI") {
     Container(dw, "Data Warehouse", "Azure Synapse Analytics", "Armazena dados integrados e transformados.")
     Container(dashboard, "Sistema Dashboard", "Power BI", "Fornece visualizações e relatórios interativos dos dados.")
 
-    ' Define personas
+ 
     Person(internalUsers, "Gabinete de Orçamento / Financeiro / Operações", "Usuários internos que gerenciam e avaliam RFPs.")
 
-    ' Define relationships
-    Rel(internalUsers, dashboard, "Acessa relatórios e visualizações")
-    Rel(db, etl, "Fornece dados brutos para processamento")
-    Rel(etl, dw, "Carrega dados transformados")
-    Rel(dw, dashboard, "Fornece dados para visualizações e relatórios")
-    Rel(dashboard, dw, "Consulta dados para relatórios")
 
-    ' Define detailed relationships for ETL components
-    Rel(extractor, transformer, "Passa dados extraídos para transformação")
-    Rel(transformer, loader, "Passa dados transformados para carregamento")
+   
+    Rel(db, etl, "1. Fornece dados brutos para processamento")
+    Rel(extractor, transformer, "2. Passa dados extraídos para transformação")
+    Rel(transformer, loader, "3. Passa dados transformados para carregamento")
+    Rel(etl, dw, "4. Carrega dados transformados")
+    Rel(dashboard, dw, "5. Consulta dados para relatórios")    
+    Rel(dw, dashboard, "6. Fornece dados para visualizações e relatórios")
+    Rel(internalUsers, dashboard, "7. Acessa relatórios e visualizações")
 }
 @enduml
