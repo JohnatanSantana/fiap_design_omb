@@ -5,9 +5,11 @@ Este repositório contém recursos e documentação para o projeto de Arquitetur
 
 ## Estrutura do Repositório
 
-- **images/**: Contém diagramas relacionados ao projeto, como diagramas de contexto, contêineres e componentes.
-- **docs/**: Documentação sobre o design, arquitetura e perguntas.
 - **code/**: codigo para geração e manipulação de diagramas e modelos.
+- **docs/**: Documentação sobre o design, arquitetura e perguntas.
+- **images/**: Contém diagramas relacionados ao projeto, como diagramas de contexto, contêineres e componentes.
+
+
 
 ## Como Usar
 
