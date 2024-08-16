@@ -9,7 +9,9 @@ Este repositório contém recursos e documentação para o projeto de Arquitetur
 - **docs/**: Documentação sobre o design, arquitetura e perguntas.
 - **images/**: Contém diagramas relacionados ao projeto, como diagramas de contexto, contêineres e componentes.
 
-
+## Apresentação do projeto
+Acesse o video com uma apresentação geral do repositório e os Diagramas. 
+![](./doc/apresentacao_projeto.mp4)
 
 ## Como Usar
 
