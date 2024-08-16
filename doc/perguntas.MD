@@ -228,7 +228,8 @@ camadas do C4; (Subir somente a Imagem jpg/jpeg)
 31. Validar no checklist (opcional) - https://c4model.com/review/ 
 32. Gravar um vídeo explicando o projeto com um todo e desenhos, Obs: todos os integrantes 
 devem apresentar uma parte do projeto. 
-![](../doc/apresentacao_projeto.mp4)
+Video /doc/apresentacao_projeto.mp4
+[video](../doc/apresentacao_projeto.mp4)
 Subir em um repositório no github e compartilha com o professor 
 Dúvidas contatar os E-mail: 
 profleonardo.pinho@fiap.com.br/leonardo.c.pinho@gmail.com 
